@@ -1,0 +1,10 @@
+tensorflow
+mediapipe
+six
+protobuf
+opencv-python==3.4.8.29
+ipdb
+pandas
+scrapy
+beautifulsoup4
+requests

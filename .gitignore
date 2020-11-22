@@ -1,0 +1,10 @@
+# created by virtualenv automatically
+mediapipe/
+data/
+training_chkpt/
+tf_nightly-2.4.0.dev20201023-cp36-cp36m-macosx_10_14_x86_64.whl
+.DS_Store
+.idea/
+__pycache__
+venv/
+trainers/elix_scrapper.py
