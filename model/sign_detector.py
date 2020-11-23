@@ -27,7 +27,7 @@ class SignDetector:
                   metrics=['accuracy'])
 
     def train(self, x_input, y_input):
-       self.model.fit(x_input, y_input, epochs=20, callbacks=[self.cp_callback])
+       self.model.fit(x_input, y_input, epochs=70, callbacks=[self.cp_callback])
 
     def evaluate(self, x_input):
         # TODO FINISH IT

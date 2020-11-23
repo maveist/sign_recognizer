@@ -12,6 +12,9 @@ class DataframeLandmark:
         self.cols = self.get_col_df_list()
         self.rows = []
 
+    def __len__(self):
+        return len(self.rows)
+
     def get_col_df_list(self):
         cols = []
         for cpt in range(0, 21):
@@ -52,14 +55,14 @@ class DataframeLandmark:
             row += [landmark.x, landmark.y, landmark.z]
         self.rows.append(row)
 
+
     def get_random_dataframe_with_target_value(self):
         if len(self.rows) > 0:
-            columns = [f'{col}_{row}' for col, row in product(self.cols, range(0, 26))]
-
+            columns = [f'{col}_{row}' for col, row in product(self.cols, range(0, 20))]
             dataframe_rows = []
             for i in range(0,51):
                 picked_indexes = []
-                for k in range(0,26):  # We randomly pick data point of 26 images and we do it 50 times
+                for k in range(0, min(len(self.rows), 20)):  # We randomly pick data point of 26 images and we do it 50 times
                     good_pick = False
                     while not good_pick:
                         picked_idx = randint(0, len(self.rows)-1)
@@ -70,6 +73,9 @@ class DataframeLandmark:
                 row = []
                 for idx in picked_indexes:
                     row += self.rows[idx]
+                # fill void cell by None
+                for j in range(0,(20-len(picked_indexes))*len(self.cols)):
+                    row.append(None)
                 dataframe_rows.append(row)
             return pd.DataFrame(dataframe_rows, columns=columns)
         else:
