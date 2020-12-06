@@ -1,18 +1,10 @@
 import cv2
 import mediapipe as mp
-import ipdb
 import numpy as np
 
 from model.sign_detector import SignDetector
 from dataframe_landmark import DataframeLandmark
 
-def dumps_data(dd):
-    pass
-    # import json
-    # with open("data.json", "w+") as output:
-    #
-    #     output.writelines(json.dumps(dd))
-    # output.close()
 
 
 def display_from_stream(stream, mp_pose, mp_hands):
@@ -60,7 +52,7 @@ def display_evaluate_from_stream(stream, mp_pose, mp_hands):
             img.flags.writeable = True
             if results_hands.multi_hand_landmarks and results_pose.pose_landmarks:
                 dfl.append_landmarks(results_hands, results_pose)
-                if len(dfl) > 20:
+                if len(dfl) > 15:
                     dataframe = dfl.get_random_dataframe_with_target_value()
                     predicted_word = model.evaluate(np.array(dataframe))
                     dfl = DataframeLandmark()

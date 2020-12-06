@@ -13,7 +13,7 @@ class SignDetector:
         self.model = tf.keras.models.Sequential([
           tf.keras.layers.Dense(128, activation='relu'),
           tf.keras.layers.Dropout(0.2),
-          tf.keras.layers.Dense(10, activation='softmax')
+          tf.keras.layers.Dense(8, activation='softmax')
         ])
         if not train:
             self.model.load_weights(self.checkpoint_path)
@@ -36,12 +36,13 @@ class SignDetector:
             tf.keras.layers.Softmax()
         ])
         res = probability_model(x_input)
-        print(res)
         word_list = get_word_list()
         word_max_predict = {}
         for word in word_list:
             word_max_predict[word] = 0
         for predict in res:
             word_max_predict[word_list[np.argmax(predict)]] += 1
+        print(word_max_predict)
+        print(res)
         choosen_word = max(word_max_predict.items(), key=operator.itemgetter(1))[0]
         return choosen_word

@@ -51,12 +51,16 @@ def train_model_from_videos():
                 results_pose = pose.process(flip_image)
                 if results_hands.multi_hand_landmarks and results_pose.pose_landmarks:
                     dfl_flip.append_landmarks(results_hands, results_pose)
-
+                    # display_image_landmark(flip_image, results_hands.multi_hand_landmarks, results_pose.pose_landmarks)
             stream.close()
             df = dfl.get_random_dataframe_with_target_value()
+            df_flip = dfl_flip.get_random_dataframe_with_target_value()
             if df is not None:
                 df["target"] = word_idx
                 dataframes.append(df)
+            if df_flip is not None:
+                df_flip["target"] = word_idx
+                dataframes.append(df_flip)
             print("END - video", file_path)
         print("############### END - Train word:", list_words[word_idx])
     print("#"*100, "END - training")
@@ -64,11 +68,9 @@ def train_model_from_videos():
     merged_dataframe = pd.DataFrame([], columns=dataframes[0].columns.values)
     for df in dataframes:
         merged_dataframe = merged_dataframe.append(df)
-    import ipdb;ipdb.set_trace()
     targets = merged_dataframe.pop("target")
     model.train(np.array(merged_dataframe), np.array(targets.values.tolist()))
 
-    #todo transformer la donnee ? polynomial fonction ?
 
 if __name__=="__main__":
     train_model_from_videos()
