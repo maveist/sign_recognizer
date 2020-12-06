@@ -16,6 +16,7 @@ class VideoStream:
                 image.flags.writeable = False
                 yield image
             else:
+                self.close()
                 break
 
     def open(self):
