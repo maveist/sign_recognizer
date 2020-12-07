@@ -11,9 +11,11 @@ class SignDetector:
     def __init__(self, train=False):
         self.checkpoint_path = os.path.join(get_root_project_path(), "training_chkpt", "training_1", "cp.ckpt")
         self.model = tf.keras.models.Sequential([
-          tf.keras.layers.Dense(128, activation='relu'),
-          tf.keras.layers.Dropout(0.2),
-          tf.keras.layers.Dense(8, activation='softmax')
+            tf.keras.layers.Dropout(0.2),
+            tf.keras.layers.Flatten(),
+            tf.keras.layers.Dense(128, activation='relu'),
+            tf.keras.layers.Dropout(0.5),
+            tf.keras.layers.Dense(8, activation='softmax')
         ])
         if not train:
             self.model.load_weights(self.checkpoint_path)
