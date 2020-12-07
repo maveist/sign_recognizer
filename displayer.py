@@ -12,7 +12,7 @@ def display_from_stream(stream, mp_pose, mp_hands):
     mp_drawing = mp.solutions.drawing_utils
     hands = mp_hands.Hands(
         min_detection_confidence=0.5, min_tracking_confidence=0.4)
-    pose = mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.2)
+    pose = mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.4)
     for img in stream.get_images():
         try:
             results_hands = hands.process(img)
@@ -63,10 +63,11 @@ def display_evaluate_from_stream(stream, mp_pose, mp_hands):
             print(err)
             break
     dataframe = dfl.get_random_dataframe_with_target_value()
-    predicted_word_idx = model.evaluate(np.array(dataframe))
-    print('#'*100)
-    print('#'*25, "Prediction du mot:", predicted_word_idx, '#'*25)
-    print('#'*100)
+    if dataframe is not None:
+        predicted_word_idx = model.evaluate(np.array(dataframe))
+        print('#'*100)
+        print('#'*25, "Prediction du mot:", predicted_word_idx, '#'*25)
+        print('#'*100)
     stream.close()
     hands.close()
     pose.close()
