@@ -25,7 +25,7 @@ def train_model_from_videos():
     mp_pose = mp.solutions.pose
     hands = mp_hands.Hands(
         min_detection_confidence=0.5, min_tracking_confidence=0.4)
-    pose = mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.2)
+    pose = mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5)
     model = SignDetector(train=True)
     model.compile()
     dataframes = []

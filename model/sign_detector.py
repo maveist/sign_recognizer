@@ -24,7 +24,7 @@ class SignDetector:
                                                               verbose=1)
 
     def compile(self):
-        self.model.compile(optimizer='adam',
+        self.model.compile(optimizer='rmsprop',
                   loss='sparse_categorical_crossentropy',
                   metrics=['accuracy'])
 
