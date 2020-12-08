@@ -16,6 +16,7 @@ CARTESIAN_FINGERS = [('THUMB', 'INDEX_FINGER'), ('THUMB', 'MIDDLE_FINGER'), ('TH
                      ('MIDDLE_FINGER', 'PINKY'), ('PINKY', 'INDEX_FINGER'), ('PINKY', 'RING_FINGER'),
                      ('RING_FINGER', 'INDEX_FINGER')]
 
+
 class DataframeLandmark:
 
     def __init__(self, nb_frames=15):
@@ -43,7 +44,7 @@ class DataframeLandmark:
             cols.append(f"l_hand_x_{cpt}")
             cols.append(f"l_hand_y_{cpt}")
             cols.append(f"l_hand_z_{cpt}")
-        for cpt in range(0,21):
+        for cpt in range(0, 21):
             cols.append(f"r_hand_x_{cpt}")
             cols.append(f"r_hand_y_{cpt}")
             cols.append(f"r_hand_z_{cpt}")
@@ -54,7 +55,6 @@ class DataframeLandmark:
         return cols
 
     def append_landmarks(self, results_hand, results_pose):
-
         row = []
         tmp_row = []
         # hand landmarks process results_hands.multi_hand_landmarks[0].ListFields()[0][1][20].x
@@ -66,11 +66,10 @@ class DataframeLandmark:
             np.array([pose_points[POSEMARK.RIGHT_EYE_INNER].x, pose_points[POSEMARK.RIGHT_EYE_INNER].y, pose_points[POSEMARK.RIGHT_EYE_INNER].z]),
             np.array([pose_points[POSEMARK.LEFT_EYE_INNER].x, pose_points[POSEMARK.LEFT_EYE_INNER].y, pose_points[POSEMARK.LEFT_EYE_INNER].z]),
             np.array([pose_points[POSEMARK.MOUTH_LEFT].x, pose_points[POSEMARK.MOUTH_LEFT].y,
-                      pose_points[POSEMARK.MOUTH_LEFT].z]),
-        np.array([pose_points[POSEMARK.MOUTH_RIGHT].x, pose_points[POSEMARK.MOUTH_RIGHT].y,
-                  pose_points[POSEMARK.MOUTH_RIGHT].z])
+                     pose_points[POSEMARK.MOUTH_LEFT].z]),
+            np.array([pose_points[POSEMARK.MOUTH_RIGHT].x, pose_points[POSEMARK.MOUTH_RIGHT].y,
+                     pose_points[POSEMARK.MOUTH_RIGHT].z])
         )
-
 
         if landmarks.get("left", False):
             hand_points = landmarks["left"].ListFields()[0][1]
@@ -87,7 +86,7 @@ class DataframeLandmark:
             # COMPUTE WRIST DISTANCE
             for finger in FINGERS:
                 finger_tip = np.array([hand_points[HANDMARK[f"{finger}_TIP"]].x, hand_points[HANDMARK[f"{finger}_TIP"]].y,
-                                    hand_points[HANDMARK[f"{finger}_TIP"]].z])
+                                      hand_points[HANDMARK[f"{finger}_TIP"]].z])
                 row.append(compute_distance(finger_tip, wirst_point))
 
             # ADD RELATIVE COORDINATE FROM MEAN HEAD
@@ -95,7 +94,7 @@ class DataframeLandmark:
                 row += [landmark.x - mean_head[0], landmark.y - mean_head[1], landmark.z - mean_head[2]]
 
         else:
-            row += np.zeros(15+3*21).tolist()
+            row += np.zeros(15 + 3 * 21).tolist()
 
         if landmarks.get("right", False):
             hand_points = landmarks["right"].ListFields()[0][1]
@@ -123,7 +122,7 @@ class DataframeLandmark:
             for landmark in landmarks["right"].ListFields()[0][1]:
                 row += [landmark.x - mean_head[0], landmark.y - mean_head[1], landmark.z - mean_head[2]]
         else:
-            row += np.zeros(15+3*21).tolist()
+            row += np.zeros(15 + 3 * 21).tolist()
 
         # pose landmarks process
         for landmark in pose_points:
@@ -132,17 +131,16 @@ class DataframeLandmark:
         self.rows.append(row)
         self.tmp_cols.append(tmp_row)
 
-
     def get_random_dataframe_with_target_value(self):
         if len(self.rows) >= self.nb_frames:
             columns = [f'{col}_{row}' for col, row in product(self.cols, range(0, self.nb_frames))]
             dataframe_rows = []
-            for i in range(0,51):
+            for i in range(0, 51):
                 picked_indexes = []
                 for k in range(0, self.nb_frames):  # We randomly pick data point of 15 images and we do it 50 times
                     good_pick = False
                     while not good_pick:
-                        picked_idx = randint(0, len(self.rows)-1)
+                        picked_idx = randint(0, len(self.rows) - 1)
                         if picked_idx not in picked_indexes:
                             picked_indexes.append(picked_idx)
                             good_pick = True

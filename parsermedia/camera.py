@@ -2,6 +2,7 @@ import cv2
 from threading import Thread
 from queue import Queue
 
+
 class CameraStream:
 
     def __init__(self):

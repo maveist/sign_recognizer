@@ -1,10 +1,11 @@
-import os
 import operator
+import os
 
-import tensorflow as tf
 import numpy as np
+import tensorflow as tf
 
 from model.utils import get_root_project_path, get_word_list
+
 
 class SignDetector:
 
@@ -25,11 +26,11 @@ class SignDetector:
 
     def compile(self):
         self.model.compile(optimizer='rmsprop',
-                  loss='sparse_categorical_crossentropy',
-                  metrics=['accuracy'])
+                           loss='sparse_categorical_crossentropy',
+                           metrics=['accuracy'])
 
     def train(self, x_input, y_input):
-       self.model.fit(x_input, y_input, epochs=70, callbacks=[self.cp_callback])
+        self.model.fit(x_input, y_input, epochs=70, callbacks=[self.cp_callback])
 
     def evaluate(self, x_input):
         # TODO FINISH IT

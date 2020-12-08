@@ -11,6 +11,7 @@ from model.trainers.trainer import train_model_from_videos
 # TODO movement detection (feu vert feu rouge)
 # TODO donnee entrainement simple "bonjour", "oui", "non", "arbre", "bebe"
 
+
 def run_simple():
     mp_hands = mp.solutions.hands
     mp_pose = mp.solutions.pose
