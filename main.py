@@ -50,39 +50,30 @@ def run():
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Sign to text')
+    parser = argparse.ArgumentParser(description='Sign to text: Command that parse a video stream and recognizes signs')
     parser.add_argument("-v", "--video", type=str, nargs='?')
     parser.add_argument("-c", '--camera', action="store_true")
     parser.add_argument("-t", '--train', action="store_true")
     parser.add_argument("-e", "--evaluate", action="store_true")
     args = parser.parse_args()
 
+    # init stream value
+    stream = None
+    if not (args.process or args.upload):
+        parser.error('No stream given, add --video or --camera')
+    if args.video:
+        stream = VideoStream(args.video)
+    if args.camera:
+        stream = CameraStream()
+
+    # init components
+    mp_hands = mp.solutions.hands
+    mp_pose = mp.solutions.pose
+
+    # launch action
     if args.evaluate:
-        if args.video:
-            stream = VideoStream(args.video)
-            mp_hands = mp.solutions.hands
-            mp_pose = mp.solutions.pose
-
-            displayer.display_evaluate_from_stream(stream, mp_pose, mp_hands)
-        if args.camera:
-            stream = CameraStream()
-            mp_hands = mp.solutions.hands
-            mp_pose = mp.solutions.pose
-
-            displayer.display_evaluate_from_stream(stream, mp_pose, mp_hands)
+        displayer.display_evaluate_from_stream(stream, mp_pose, mp_hands)
+    if args.train:
+        train_model_from_videos()
     else:
-        if args.video:
-            stream = VideoStream(args.video)
-            mp_hands = mp.solutions.hands
-            mp_pose = mp.solutions.pose
-
-            displayer.display_from_stream(stream, mp_pose, mp_hands)
-        if args.camera:
-            stream = CameraStream()
-            mp_hands = mp.solutions.hands
-            mp_pose = mp.solutions.pose
-
-            displayer.display_from_stream(stream, mp_pose, mp_hands)
-
-        if args.train:
-            train_model_from_videos()
+        displayer.display_from_stream(stream, mp_pose, mp_hands)
