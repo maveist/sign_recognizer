@@ -17,6 +17,10 @@ def run():
 
 
 if __name__ == "__main__":
+    # TODO Change the behavior of the command. By default it should display the evaluation because it is
+    # what the users want to use when they dsicover the projet.
+    # Instead of having an argument --evaluate to launch the evaluation you should launch it by default
+    # and add an argument '--no-evaluation' to use when you just want to display the structure of the video.
     parser = argparse.ArgumentParser(description='Sign to text: Command that parse a video stream and recognizes signs')
     parser.add_argument("-v", "--video", type=str, nargs='?')
     parser.add_argument("-c", '--camera', action="store_true")
