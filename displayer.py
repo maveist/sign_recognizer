@@ -26,7 +26,7 @@ def display_from_stream(stream, mp_pose, mp_hands):
                 mp_drawing.draw_landmarks(
                     img, results_pose.pose_landmarks, mp_pose.POSE_CONNECTIONS)
             cv2.imshow('MediaPipe Hands', img)
-            if cv2.waitKey(0) & 0xFF == ord('q'):
+            if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
         except Exception as err:
             print(err)
