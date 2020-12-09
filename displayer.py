@@ -6,7 +6,6 @@ from model.sign_detector import SignDetector
 from dataframe_landmark import DataframeLandmark
 
 
-
 def display_from_stream(stream, mp_pose, mp_hands):
     stream.open()
     mp_drawing = mp.solutions.drawing_utils
@@ -40,7 +39,6 @@ def display_evaluate_from_stream(stream, mp_pose, mp_hands):
     model = SignDetector()
     dfl = DataframeLandmark()
     stream.open()
-    mp_drawing = mp.solutions.drawing_utils
     hands = mp_hands.Hands(
         min_detection_confidence=0.5, min_tracking_confidence=0.4)
     pose = mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5)
@@ -65,9 +63,9 @@ def display_evaluate_from_stream(stream, mp_pose, mp_hands):
     dataframe = dfl.get_random_dataframe_with_target_value()
     if dataframe is not None:
         predicted_word_idx = model.evaluate(np.array(dataframe))
-        print('#'*100)
-        print('#'*25, "Prediction du mot:", predicted_word_idx, '#'*25)
-        print('#'*100)
+        print('#' * 100)
+        print('#' * 25, "Prediction du mot:", predicted_word_idx, '#' * 25)
+        print('#' * 100)
     stream.close()
     hands.close()
     pose.close()
@@ -88,4 +86,3 @@ def display_image_landmark(image, hand_multi_landmarks, pose_landmarks, text=Non
     cv2.imshow('MediaPipe Hands', image)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         pass
-

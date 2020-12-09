@@ -4,6 +4,8 @@ import cv2
 class VideoStream:
 
     def __init__(self, video_path):
+        # TODO Ensure the file given in agument is a video file (check extension at least)
+        # If not a video file, raise an exception to alert user about the issue
         self.video_path = video_path
         self.is_on = False
         self.cap = None
