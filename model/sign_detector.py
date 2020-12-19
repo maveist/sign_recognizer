@@ -33,7 +33,6 @@ class SignDetector:
         self.model.fit(x_input, y_input, epochs=70, callbacks=[self.cp_callback])
 
     def evaluate(self, x_input):
-        # TODO FINISH IT
         probability_model = tf.keras.Sequential([
             self.model,
             tf.keras.layers.Softmax()
