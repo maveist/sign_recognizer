@@ -15,6 +15,7 @@ class CameraStream:
             yield self.queue.get()
 
     def capture_image(self):
+        self.cap = cv2.VideoCapture(0)
         while self.cap.isOpened() and self.is_on:
             success, image = self.cap.read()
             if not success:
@@ -26,7 +27,6 @@ class CameraStream:
 
     def open(self):
         self.is_on = True
-        self.cap = cv2.VideoCapture(0)
         thrd = Thread(target=self.capture_image, args=())
         thrd.daemon = True
         thrd.start()
