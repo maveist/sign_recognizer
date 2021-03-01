@@ -131,25 +131,22 @@ class DataframeLandmark:
         self.rows.append(row)
         self.tmp_cols.append(tmp_row)
 
-    def get_random_dataframe_with_target_value(self):
-        if len(self.rows) >= self.nb_frames:
-            columns = [f'{col}_{row}' for col, row in product(self.cols, range(0, self.nb_frames))]
-            dataframe_rows = []
-            for i in range(0, 51):
-                picked_indexes = []
-                for k in range(0, self.nb_frames):  # We randomly pick data point of 15 images and we do it 50 times
-                    good_pick = False
-                    while not good_pick:
-                        picked_idx = randint(0, len(self.rows) - 1)
-                        if picked_idx not in picked_indexes:
-                            picked_indexes.append(picked_idx)
-                            good_pick = True
-                picked_indexes.sort()
-                row = []
-                for idx in picked_indexes:
-                    row += self.rows[idx]
-                # fill void cell by None
-                dataframe_rows.append(row)
-            return pd.DataFrame(dataframe_rows, columns=columns)
-        else:
-            return None
+    def get_dataframe(self):
+        if len(self.rows) < self.nb_frames:
+            cpt = 0
+            while len(self.rows) < self.nb_frames:
+                idx = cpt % len(self.rows)
+                mean_row = [(value[0] + value[1])/2 for value in zip(self.rows[idx], self.rows[idx + 1])]
+                self.rows = self.rows[:idx] + [mean_row] + self.rows[idx:]
+                cpt += 2
+        elif len(self.rows) > self.nb_frames:
+            cpt = 0
+            while len(self.rows) > self.nb_frames:
+                idx = cpt % len(self.rows)
+                del self.rows[idx + 1]
+                cpt += 1
+        columns = [f'{col}_{row}' for col, row in product(self.cols, range(0, self.nb_frames))]
+        df_rows = []
+        for row in self.rows:
+            df_rows += row
+        return pd.DataFrame([df_rows], columns=columns)
