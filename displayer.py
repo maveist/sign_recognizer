@@ -44,28 +44,24 @@ def display_evaluate_from_stream(stream, mp_pose, mp_hands):
     pose = mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5)
     predicted_word = "None"
     for img in stream.get_images():
-        try:
-            results_hands = hands.process(img)
-            results_pose = pose.process(img)
-            img.flags.writeable = True
-            if results_hands.multi_hand_landmarks and results_pose.pose_landmarks:
-                dfl.append_landmarks(results_hands, results_pose)
-                if len(dfl) > 15:
-                    dataframe = dfl.get_random_dataframe_with_target_value()
-                    predicted_word = model.evaluate(np.array(dataframe))
-                    dfl = DataframeLandmark()
-                display_image_landmark(img, results_hands.multi_hand_landmarks, results_pose.pose_landmarks,
-                                       text=predicted_word)
 
-        except Exception as err:
-            print(err)
-            break
-    dataframe = dfl.get_random_dataframe_with_target_value()
-    if dataframe is not None:
-        predicted_word_idx = model.evaluate(np.array(dataframe))
-        print('#' * 100)
-        print('#' * 25, "Prediction du mot:", predicted_word_idx, '#' * 25)
-        print('#' * 100)
+        results_hands = hands.process(img)
+        results_pose = pose.process(img)
+        img.flags.writeable = True
+        if results_hands.multi_hand_landmarks and results_pose.pose_landmarks:
+            dfl.append_landmarks(results_hands, results_pose)
+            if len(dfl) > 15:
+                dataframe = dfl.get_dataframe()
+                predicted_word = model.evaluate(np.array(dataframe))
+                dfl = DataframeLandmark()
+            display_image_landmark(img, results_hands.multi_hand_landmarks, results_pose.pose_landmarks,
+                                   text=predicted_word)
+
+    dataframe = dfl.get_dataframe()
+    predicted_word_idx = model.evaluate(np.array(dataframe))
+    print('#' * 100)
+    print('#' * 25, "Prediction du mot:", predicted_word_idx, '#' * 25)
+    print('#' * 100)
     stream.close()
     hands.close()
     pose.close()
