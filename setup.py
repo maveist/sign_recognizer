@@ -2,7 +2,7 @@
 from setuptools import setup
 
 
-setup(name='sign-recognizer',
+setup(name='sign_recognizer',
       description='Python side-project which recognize sign (French Sign Language) with mediapipe and tensorflow',
       author='Dahmani Selim',
       url="https://github.com/maveist/sign-recognizer",
