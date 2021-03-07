@@ -135,14 +135,14 @@ class DataframeLandmark:
         if len(self.rows) < self.nb_frames:
             cpt = 0
             while len(self.rows) < self.nb_frames:
-                idx = cpt % len(self.rows)
+                idx = cpt % (len(self.rows) - 1)
                 mean_row = [(value[0] + value[1])/2 for value in zip(self.rows[idx], self.rows[idx + 1])]
                 self.rows = self.rows[:idx] + [mean_row] + self.rows[idx:]
                 cpt += 2
         elif len(self.rows) > self.nb_frames:
             cpt = 0
             while len(self.rows) > self.nb_frames:
-                idx = cpt % len(self.rows)
+                idx = cpt % (len(self.rows) -1)
                 del self.rows[idx + 1]
                 cpt += 1
         columns = [f'{col}_{row}' for col, row in product(self.cols, range(0, self.nb_frames))]
