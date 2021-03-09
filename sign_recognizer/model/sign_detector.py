@@ -4,7 +4,7 @@ import os
 import numpy as np
 import tensorflow as tf
 
-from model.utils import get_root_project_path, get_word_list
+from sign_recognizer.model.utils import get_root_project_path, get_word_list
 
 
 class SignDetector:
