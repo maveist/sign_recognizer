@@ -2,8 +2,8 @@ import cv2
 import mediapipe as mp
 import numpy as np
 
-from model.sign_detector import SignDetector
-from dataframe_landmark import DataframeLandmark
+from sign_recognizer.model.sign_detector import SignDetector
+from sign_recognizer.dataframe_landmark import DataframeLandmark
 
 
 def display_from_stream(stream, mp_pose, mp_hands):

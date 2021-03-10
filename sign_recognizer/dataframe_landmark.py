@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 import mediapipe as mp
 
-from model.utils import compute_distance, get_mean
+from sign_recognizer.model.utils import compute_distance, get_mean
 
 HANDMARK = mp.solutions.hands.HandLandmark
 POSEMARK = mp.solutions.pose.PoseLandmark

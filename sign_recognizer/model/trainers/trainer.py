@@ -6,11 +6,11 @@ import numpy as np
 import pandas as pd
 import cv2
 
-from model.sign_detector import SignDetector
-from model.utils import get_word_list, get_root_project_path
-from dataframe_landmark import DataframeLandmark
-from parsermedia.video import VideoStream
-from displayer import display_image_landmark
+from sign_recognizer.model.sign_detector import SignDetector
+from sign_recognizer.model.utils import get_word_list, get_root_project_path
+from sign_recognizer.dataframe_landmark import DataframeLandmark
+from sign_recognizer.parsermedia.video import VideoStream
+from sign_recognizer.displayer import display_image_landmark
 
 
 def get_video_list(parent_dir):
@@ -53,8 +53,8 @@ def train_model_from_videos():
                     dfl_flip.append_landmarks(results_hands, results_pose)
                     # display_image_landmark(flip_image, results_hands.multi_hand_landmarks, results_pose.pose_landmarks)
             stream.close()
-            df = dfl.get_random_dataframe_with_target_value()
-            df_flip = dfl_flip.get_random_dataframe_with_target_value()
+            df = dfl.get_dataframe()
+            df_flip = dfl_flip.get_dataframe()
             if df is not None:
                 df["target"] = word_idx
                 dataframes.append(df)

@@ -4,13 +4,12 @@ import os
 import numpy as np
 import tensorflow as tf
 
-from model.utils import get_root_project_path, get_word_list
+from sign_recognizer.model.utils import get_root_project_path, get_word_list
 
 
 class SignDetector:
 
-    def __init__(self, train=False):
-        self.checkpoint_path = os.path.join(get_root_project_path(), "training_chkpt", "training_1", "cp.ckpt")
+    def __init__(self):
         self.model = tf.keras.models.Sequential([
             tf.keras.layers.Dropout(0.2),
             tf.keras.layers.Flatten(),
@@ -18,11 +17,9 @@ class SignDetector:
             tf.keras.layers.Dropout(0.5),
             tf.keras.layers.Dense(8, activation='softmax')
         ])
-        if not train:
-            self.model.load_weights(self.checkpoint_path)
-        self.cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=self.checkpoint_path,
-                                                              save_weights_only=True,
-                                                              verbose=1)
+
+    def load(self, path):
+        self.model = tf.keras.models.load_model(path)
 
     def compile(self):
         self.model.compile(optimizer='rmsprop',
