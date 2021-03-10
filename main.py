@@ -3,10 +3,10 @@ import argparse
 import mediapipe as mp
 import cv2
 
-import displayer
-from parsermedia.camera import CameraStream
-from parsermedia.video import VideoStream
-from model.trainers.trainer import train_model_from_videos
+from sign_recognizer import displayer
+from sign_recognizer.parsermedia.camera import CameraStream
+from sign_recognizer.parsermedia.video import VideoStream
+from sign_recognizer.model.trainers.trainer import train_model_from_videos
 
 # TODO movement detection (feu vert feu rouge)
 
